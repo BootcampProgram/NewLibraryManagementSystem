@@ -13,16 +13,18 @@ namespace LMS.DataSource.Entities
     //$Email : ayshuu1997@gmail.com
     //$Description (if any) :
     //-----------------------------------------------------------------
-    public class Payment
+    public class BookDetailAuthor
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PaymentId { get; set; }
+        public int Id { get; set; }
 
-        public double DuePayment { get; set; }
+        [ForeignKey("DetailID")]
+        public BookDetail ParentDeatilID { get; set; }
+        public int DetailID { get; set; }
 
-        [ForeignKey("BorrowingId")]
-        public Borrowing ParentBorrowing { get; set; }
-        public int BorrowingId { get; set; }
+        [ForeignKey("AuthorId")]
+        public Author ParentAuthorId { get; set; }
+        public int AuthorId { get; set; }
     }
 }
