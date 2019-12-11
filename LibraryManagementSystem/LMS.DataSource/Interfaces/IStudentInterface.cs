@@ -8,7 +8,7 @@ namespace LMS.DataSource.Interfaces
 
     //-----------------------------------------------------------------
     //$Developer                :  Iresha Silva
-    //$Created on               :  09/12/2019
+    //$Created on               :  10/12/2019
     //$Mobile No                :  0778377630
     //$Email                    :  ireshasilva96@gmail.com
     //$Description (If Any)     : 
@@ -23,13 +23,8 @@ namespace LMS.DataSource.Interfaces
 
         Student GetStudentByAttribute(int ID);
 
-        ICollection<Borrowing> GetBorrowingsByStudentId(int ID);
-
-        ICollection<Payment> GetPaymentsByStudentId(int ID);
-
         int BlockStudent(int id, Student studentObject);
 
         int ResetPassword(int id, Student studentObject);
-
     }
 }
