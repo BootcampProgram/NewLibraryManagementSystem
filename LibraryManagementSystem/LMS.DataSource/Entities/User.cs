@@ -21,6 +21,9 @@ namespace LMS.DataSource.Entities
         public int UserID { get; set; }
 
         [Required]
+        public int RoleID { get; set; }
+
+        [Required]
         [MaxLength(10, ErrorMessage = "Maximum 10 Characters Accepted")]
         [MinLength(7, ErrorMessage = "Minimum 7 Characters Needed")]
         public string Password { get; set; }
@@ -31,8 +34,5 @@ namespace LMS.DataSource.Entities
         [Required]
         public bool Status { get; set; }
 
-        [ForeignKey("StudentID")]
-        public Student ParentStudent { get; set; }
-        public int StudentID { get; set; }
     }
 }

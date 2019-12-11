@@ -28,7 +28,7 @@ namespace LMS.DataSource.Entities
         [Required]
         public string Tittle { get; set; }
 
-        public DateTime Year { get; set; }
+        public string Year { get; set; }
 
         public string Language { get; set; }
 
