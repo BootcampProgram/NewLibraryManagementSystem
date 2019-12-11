@@ -36,6 +36,7 @@ namespace LibraryManagementSystem
             services.AddDbContext<AppDbContext>(a => a.UseSqlServer(SQLConnectionString));
 
             services.AddScoped<IStudentInterface, StudentRepository>();
+            services.AddScoped<IReservationInterface, ReservationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
