@@ -26,7 +26,7 @@ namespace LMS.DataSource.Entities
 
 
         [Required]
-        public string Tittle { get; set; }
+        public string Title { get; set; }
 
         public string Year { get; set; }
 
