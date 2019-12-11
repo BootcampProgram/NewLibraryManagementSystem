@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LMS.DataSource;
+using LMS.DataSource.Interfaces;
+using LMS.DataSource.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +30,13 @@ namespace LibraryManagementSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            string SqlConnectionString = Configuration["DbConnection:DbConnectionString"];
+            services.AddDbContext<AppDbContext>(c => c.UseSqlServer(SqlConnectionString));
+
+
+            services.AddScoped<IBookInterface, BookRepository>();
+            //services.AddScoped<IBookInterface, BookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

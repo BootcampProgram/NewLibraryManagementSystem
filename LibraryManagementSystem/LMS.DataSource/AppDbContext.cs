@@ -8,10 +8,10 @@ namespace LMS.DataSource
 {
     public class AppDbContext : DbContext
     {
-        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        //{
-        //    Database.Migrate();
-        //}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+            Database.Migrate();
+        }
 
         public DbSet<Author> Author { get; set; }
         public DbSet<BookDetail> BookDetail { get; set; }
@@ -31,7 +31,7 @@ namespace LMS.DataSource
         protected override void OnConfiguring(DbContextOptionsBuilder build)
         {
 
-            string SQLConnectionString = "Server=DESKTOP-EK4IBKP;Database=LMSDatabase;Trusted_Connection=true";
+            string SQLConnectionString = "Server=LAPTOP-5T8NA1E6\\SQLEXPRESS;Database=LMSDatabase;Trusted_Connection=true";
 
             build.UseSqlServer(SQLConnectionString);
 
