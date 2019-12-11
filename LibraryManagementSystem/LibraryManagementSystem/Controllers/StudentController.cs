@@ -46,11 +46,34 @@ namespace LibraryManagementSystem.Controllers
             return Ok(student);
         }
 
-        [HttpPut("{ID}/User")]
+        [HttpPut("{ID}/reset")]
         public IActionResult ResetPassword(int ID)
         {
-            var ResetStudentPassword = _studentRepo.ResetPassword(ID);
-            return Ok(ResetStudentPassword);
+            var successReset = _studentRepo.ResetPassword(ID);
+
+            if(successReset == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        [HttpPut("{ID}/block")]
+        public IActionResult BlockUser(int ID)
+        {
+            var successBlock = _studentRepo.BlockStudent(ID);
+
+            if(successBlock == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
         }
     }
 }

@@ -23,8 +23,8 @@ namespace LMS.DataSource.Interfaces
 
         Student GetStudentByAttribute(int ID);
 
-        int BlockStudent(int id, Student studentObject);
+        int BlockStudent(int id);
 
-        int ResetPassword(int id, Student studentObject);
+        int ResetPassword(int id);
     }
 }

@@ -26,9 +26,26 @@ namespace LMS.DataSource.Repositories
             _appDbContext = dbContext;
         }
 
-        public int BlockStudent(int id, Student studentObject)
+        public int BlockStudent(int ID)
         {
-            throw new NotImplementedException();
+            var student = (from _Student in _appDbContext.Student
+                           join _User in _appDbContext.User
+                           on _Student.StudentId equals _User.RoleID
+                           where _User.Role == 's' && _User.RoleID == ID
+                           select _User).FirstOrDefault();
+
+            if (student == null)
+            {
+                return 0;
+            }
+            else
+            {
+                student.Status = false;
+
+                _appDbContext.SaveChanges();
+
+                return 1;
+            }
         }
 
         public ICollection<Student> GetAllStudents()
@@ -48,13 +65,28 @@ namespace LMS.DataSource.Repositories
             return student;
         }
 
-        public int ResetPassword(int ID, Student studentObject)
+        public int ResetPassword(int ID)
         {
-            var ResetStudentPassword = (from _Student in _appDbContext.Student
+            var Student = (from _Student in _appDbContext.Student
                                         join _User in _appDbContext.User
-                                        on _Student.StudentId equals _User.UserID
-                                        where _User.UserID == ID
-                                        select _User).ToList();
+                                        on _Student.StudentId equals _User.RoleID
+                                        where _User.Role == 's' && _User.RoleID == ID
+                                        select _User).FirstOrDefault();
+
+            if(Student == null)
+            {
+                return 0;
+            }
+            else
+            {
+                Student.Password = "LMS@123";
+
+                _appDbContext.SaveChanges();
+
+                return 1;
+            }
+
+            
         }
     }
 }
