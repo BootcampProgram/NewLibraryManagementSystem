@@ -88,11 +88,34 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
-        [HttpPut("Shelve/{ID}")]
+        [HttpPut("SubShelve/{ID}")]
         public IActionResult AddedToSubShelve(int ID)
         {
             var ChangeShelve = _reservationRepo.AddedToSubShelve(ID);
 
+            if (ChangeShelve == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        [HttpPut("MainShelve/{ID}")]
+        public IActionResult ReturnedToMainShelve(int ID)
+        {
+            var ChangeShelve = _reservationRepo.ReturnedToMainShelve(ID);
+
+            if (ChangeShelve == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
     }

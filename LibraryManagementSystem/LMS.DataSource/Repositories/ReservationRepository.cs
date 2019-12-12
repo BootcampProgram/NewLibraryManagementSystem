@@ -27,7 +27,18 @@ namespace LMS.DataSource.Repositories
 
         public int AddedToSubShelve(int ID)
         {
-            throw new NotImplementedException();
+            var student = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Shelve == "Main").FirstOrDefault();
+
+            if (student == null)
+            {
+                return 0;
+            }
+            else
+            {
+                student.Shelve = "Sub";
+                _appDbContext.SaveChanges();
+                return 1;
+            }
         }
 
         public int CreateReservation(Reservation newReservation)
@@ -67,25 +78,27 @@ namespace LMS.DataSource.Repositories
         public ICollection<BookDetail> GetReservationsByStudentID(int ID)
         {
             //check is that expired
+            var reservations = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Active").ToList();
 
-            var dates = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Active").Select(c => new { c.DateReserved , c.ReservationId }) .ToList();
+            DateTime getCurrentDateTime = DateTime.Now;
 
-            DateTime getCurrentDateTime = new DateTime();
+            foreach (Reservation record in reservations)
+            {
+                var hours = (getCurrentDateTime - record.DateReserved).TotalHours;
 
-            //foreach (Reservation d in dates)
-            //{
-
-            //}
-
-            var hours = (getCurrentDateTime - dates[0].DateReserved).TotalHours;
-            //
+                if (hours >= 24)
+                {
+                    record.Status = "Expired";
+                    _appDbContext.SaveChanges();
+                }
+            }
 
             var bookDetail = (from _reservation in _appDbContext.Reservation
                               join _bookID in _appDbContext.BookIdentification
                               on _reservation.BookID equals _bookID.BookID
                               join _bookDetail in _appDbContext.BookDetail
                               on _bookID.DetailID equals _bookDetail.DetailID
-                              where _reservation.StudentId == ID
+                              where _reservation.StudentId == ID && _reservation.Status == "Active"
                               select _bookDetail).ToList();
 
             return bookDetail;
@@ -93,7 +106,18 @@ namespace LMS.DataSource.Repositories
 
         public int ReturnedToMainShelve(int ID)
         {
-            throw new NotImplementedException();
+            var student = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Shelve=="Sub").FirstOrDefault();
+
+            if (student == null)
+            {
+                return 0;
+            }
+            else
+            {
+                student.Shelve = "Main";
+                _appDbContext.SaveChanges();
+                return 1;
+            }
         }
 
         public int UpdateStatus(string status)
