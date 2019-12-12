@@ -75,5 +75,13 @@ namespace LibraryManagementSystem.Controllers
                 return Ok();
             }
         }
+
+
+        [HttpGet("Attribute/{Attribute}")]
+        public IActionResult GetStudentsByAttribute(string Attribute)
+        {
+            var students = _studentRepo.GetStudentsByAttribute(Attribute);
+            return Ok(students);
+        }
     }
 }

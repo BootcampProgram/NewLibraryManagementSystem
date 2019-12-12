@@ -54,9 +54,10 @@ namespace LMS.DataSource.Repositories
             return students;
         }
 
-        public Student GetStudentByAttribute(int ID)
+        public ICollection<Student> GetStudentsByAttribute(string Attribute)
         {
-            throw new NotImplementedException();
+            var Students = _appDbContext.Student.Where(c => c.StudentId.ToString().Contains(Attribute) || c.FirstName.Contains(Attribute) || c.LastName.Contains(Attribute) || c.DateOfBirth.ToString().Contains(Attribute) || c.Gender.Contains(Attribute) || c.Address.Contains(Attribute) || c.LandNo.Contains(Attribute) || c.ParentMobileNo.Contains(Attribute) || c.Grade.ToString().Contains(Attribute) || c.Section.ToString().Contains(Attribute) || c.Medium.Contains(Attribute)).ToList();
+            return Students;
         }
 
         public Student GetStudentByID(int ID)

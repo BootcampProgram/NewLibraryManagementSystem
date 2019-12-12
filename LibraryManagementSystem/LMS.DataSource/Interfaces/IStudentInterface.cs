@@ -21,7 +21,7 @@ namespace LMS.DataSource.Interfaces
 
         Student GetStudentByID(int ID);
 
-        Student GetStudentByAttribute(int ID);
+        ICollection<Student> GetStudentsByAttribute(string Attribute);
 
         int BlockStudent(int id);
 
