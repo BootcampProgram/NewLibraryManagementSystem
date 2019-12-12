@@ -41,6 +41,22 @@ namespace LMS.DataSource.Repositories
             }
         }
 
+        public int CancelReservation(int ID)
+        {
+            var reservation = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Status == "Active").FirstOrDefault();
+
+            if (reservation == null)
+            {
+                return 0;
+            }
+            else
+            {
+                reservation.Status = "Cancel";
+                _appDbContext.SaveChanges();
+                return 1;
+            }
+        }
+
         public int CreateReservation(Reservation newReservation)
         {
             var reservationCount = _appDbContext.Reservation.Where(c => c.StudentId == newReservation.StudentId && c.Status == "Active").Count();

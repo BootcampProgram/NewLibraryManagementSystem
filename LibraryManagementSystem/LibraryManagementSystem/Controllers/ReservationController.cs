@@ -121,5 +121,18 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
+        [HttpPut("Cancel/{ID}")]
+        public IActionResult CancelReservation(int ID)
+        {
+            var cancel = _reservationRepo.CancelReservation(ID);
+            if (cancel == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
     }
 }

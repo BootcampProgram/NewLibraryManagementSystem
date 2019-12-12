@@ -32,5 +32,7 @@ namespace LMS.DataSource.Interfaces
         int ReturnedToMainShelve(int ID);
 
         int CreateReservation(Reservation newReservation);
+
+        int CancelReservation(int ID);
     }
 }
