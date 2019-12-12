@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Controllers
 
     //-----------------------------------------------------------------
     //$Developer                :  Iresha Silva
-    //$Created on               :  10/12/2019
+    //$Created on               :  11/12/2019
     //$Mobile No                :  0778377630
     //$Email                    :  ireshasilva96@gmail.com
     //$Description (If Any)     : 
@@ -86,6 +86,13 @@ namespace LibraryManagementSystem.Controllers
             {
                 return Ok();
             }
+        }
+
+        [HttpPut("Shelve/{ID}")]
+        public IActionResult AddedToSubShelve(int ID)
+        {
+            var ChangeShelve = _reservationRepo.AddedToSubShelve(ID);
+
         }
 
     }

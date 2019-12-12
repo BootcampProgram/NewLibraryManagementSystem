@@ -27,9 +27,9 @@ namespace LMS.DataSource.Interfaces
 
         int UpdateStatus(string status);
 
-        int AddedToSubShelve(string shelve);
+        int AddedToSubShelve(int ID);
 
-        int ReturnedToMainShelve(string shelve);
+        int ReturnedToMainShelve(int ID);
 
         int CreateReservation(Reservation newReservation);
     }

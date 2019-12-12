@@ -25,14 +25,14 @@ namespace LMS.DataSource.Repositories
             _appDbContext = dbContext;
         }
 
-        public int AddedToSubShelve(string shelve)
+        public int AddedToSubShelve(int ID)
         {
             throw new NotImplementedException();
         }
 
         public int CreateReservation(Reservation newReservation)
         {
-            var reservationCount = _appDbContext.Reservation.Where(c => c.StudentId == newReservation.StudentId).Count();
+            var reservationCount = _appDbContext.Reservation.Where(c => c.StudentId == newReservation.StudentId && c.Status == "Active").Count();
 
             if (reservationCount < 2)
             {
@@ -66,6 +66,20 @@ namespace LMS.DataSource.Repositories
 
         public ICollection<BookDetail> GetReservationsByStudentID(int ID)
         {
+            //check is that expired
+
+            var dates = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Active").Select(c => new { c.DateReserved , c.ReservationId }) .ToList();
+
+            DateTime getCurrentDateTime = new DateTime();
+
+            //foreach (Reservation d in dates)
+            //{
+
+            //}
+
+            var hours = (getCurrentDateTime - dates[0].DateReserved).TotalHours;
+            //
+
             var bookDetail = (from _reservation in _appDbContext.Reservation
                               join _bookID in _appDbContext.BookIdentification
                               on _reservation.BookID equals _bookID.BookID
@@ -77,7 +91,7 @@ namespace LMS.DataSource.Repositories
             return bookDetail;
         }
 
-        public int ReturnedToMainShelve(string shelve)
+        public int ReturnedToMainShelve(int ID)
         {
             throw new NotImplementedException();
         }
