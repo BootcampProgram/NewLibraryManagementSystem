@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LMS.DataSource.Entities;
 using LMS.DataSource.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,5 +43,47 @@ namespace LibraryManagementSystem.Controllers
             var reservation = _reservationRepo.GetReservationsByStudentID(ID);
             return Ok(reservation);
         }
+
+        [HttpGet("Status/{status}")]
+        public IActionResult GetReservationsByStatus(string status)
+        {
+            var _status = _reservationRepo.GetReservationsByStatus(status);
+            return Ok(_status);
+        }
+
+        [HttpGet("Shelve/{shelve}")]
+        public IActionResult GetReservationsByShelve(string shelve)
+        {
+            var _shelve = _reservationRepo.GetReservationsByShelve(shelve);
+            return Ok(_shelve);
+        }
+
+
+        [HttpPost("New")]
+        public IActionResult CreateReservation([FromBody] Reservation newReservation)
+        {
+            if(newReservation == null)
+            {
+                return BadRequest();
+            }
+
+            _reservationRepo.CreateReservation(newReservation);
+            return NoContent();
+        }
+
+        [HttpGet("UpdateStatus/{status}")]
+        public IActionResult UpdateStatus(string status)
+        {
+            var UpdateStatus = _reservationRepo.UpdateStatus(status);
+            if (UpdateStatus == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
     }
 }

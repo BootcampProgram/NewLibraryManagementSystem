@@ -30,20 +30,42 @@ namespace LMS.DataSource.Repositories
             throw new NotImplementedException();
         }
 
+        public int CreateReservation(Reservation newReservation)
+        {
+            //var reservationCount = (from _studentcount in Reservation
+            //                        group _studentcount by Reservation.)
+
+
+            var reservationCount = _appDbContext.Reservation.Where(c => c.StudentId == newReservation.StudentId).Count();
+
+            if (!(reservationCount >= 2))
+            {
+                _appDbContext.Reservation.Add(newReservation);
+                _appDbContext.SaveChanges();
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public ICollection<Reservation> GetAllReservations()
         {
             var reservations = _appDbContext.Reservation.ToList();
             return reservations;
         }
 
-        public Reservation GetReservationByShelve(string shelve)
+        public ICollection<Reservation> GetReservationsByShelve(string shelve)
         {
-            throw new NotImplementedException();
+            var _shelve = _appDbContext.Reservation.Where(c => c.Shelve.Contains(shelve)).ToList();
+            return _shelve;
         }
 
-        public Reservation GetReservationByStatus(string status)
+        public ICollection<Reservation> GetReservationsByStatus(string status)
         {
-            throw new NotImplementedException();
+            var ReservationStatus = _appDbContext.Reservation.Where(c => c.Status.Contains(status)).ToList();
+            return ReservationStatus;
         }
 
         public ICollection<BookDetail> GetReservationsByStudentID(int ID)
@@ -66,6 +88,8 @@ namespace LMS.DataSource.Repositories
 
         public int UpdateStatus(string status)
         {
+
+            //var reservedTime = _appDbContext.Reservation.Where(c => c.DateReserved >=)
             throw new NotImplementedException();
         }
     }
