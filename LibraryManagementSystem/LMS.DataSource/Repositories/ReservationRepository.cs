@@ -59,8 +59,27 @@ namespace LMS.DataSource.Repositories
 
         public ICollection<Reservation> GetAllReservations()
         {
-            var reservations = _appDbContext.Reservation.ToList();
-            return reservations;
+            //var reservations = _appDbContext.Reservation.ToList();
+            //return reservations;
+
+            //var reservations = _appDbContext.Reservation.Where(c => c.Status == "Active").ToList();
+
+            //DateTime getCurrentDateTime = DateTime.Now;
+
+            //foreach (Reservation record in reservations)
+            //{
+            //    var hours = (getCurrentDateTime - record.DateReserved).TotalHours;
+
+            //    if (hours >= 24)
+            //    {
+            //        record.Status = "Expired";
+            //        _appDbContext.SaveChanges();
+            //    }
+            //}
+
+            //return 1;
+
+            throw new NotImplementedException();
         }
 
         public ICollection<Reservation> GetReservationsByShelve(string shelve)
@@ -100,6 +119,32 @@ namespace LMS.DataSource.Repositories
                               on _bookID.DetailID equals _bookDetail.DetailID
                               where _reservation.StudentId == ID && _reservation.Status == "Active"
                               select _bookDetail).ToList();
+
+            //Showing recent expired book details
+            var ExpiredReservations = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Expired").ToList();
+
+            foreach (Reservation record in ExpiredReservations)
+            {
+                var hours = (getCurrentDateTime - record.DateReserved).TotalHours;
+
+                if (hours <= 48)
+                {
+                    var ExpiredBookDetail =   (from _reservation in _appDbContext.Reservation
+                                              join _bookID in _appDbContext.BookIdentification
+                                              on _reservation.BookID equals _bookID.BookID
+                                              join _bookDetail in _appDbContext.BookDetail
+                                              on _bookID.DetailID equals _bookDetail.DetailID
+                                              where _reservation.ReservationId == record.ReservationId
+                                              select _bookDetail).ToList();
+
+                    foreach(BookDetail book in ExpiredBookDetail)
+                    {
+                        bookDetail.Add(book);
+                    }
+
+                    
+                }
+            }
 
             return bookDetail;
         }

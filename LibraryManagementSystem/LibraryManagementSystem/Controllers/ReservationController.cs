@@ -33,6 +33,9 @@ namespace LibraryManagementSystem.Controllers
         [HttpGet]
         public IActionResult GetAllReservations()
         {
+            //check records of status = expired or not
+            //if expired change the status to expired
+
             var reservations = _reservationRepo.GetAllReservations();
             return Ok(reservations);
         }
