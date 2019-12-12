@@ -32,13 +32,9 @@ namespace LMS.DataSource.Repositories
 
         public int CreateReservation(Reservation newReservation)
         {
-            //var reservationCount = (from _studentcount in Reservation
-            //                        group _studentcount by Reservation.)
-
-
             var reservationCount = _appDbContext.Reservation.Where(c => c.StudentId == newReservation.StudentId).Count();
 
-            if (!(reservationCount >= 2))
+            if (reservationCount < 2)
             {
                 _appDbContext.Reservation.Add(newReservation);
                 _appDbContext.SaveChanges();

@@ -62,13 +62,16 @@ namespace LibraryManagementSystem.Controllers
         [HttpPost("New")]
         public IActionResult CreateReservation([FromBody] Reservation newReservation)
         {
-            if(newReservation == null)
+            int result = _reservationRepo.CreateReservation(newReservation);
+
+            if (result == 0)
             {
                 return BadRequest();
             }
-
-            _reservationRepo.CreateReservation(newReservation);
-            return NoContent();
+            else
+            {
+                return Ok();
+            }
         }
 
         [HttpGet("UpdateStatus/{status}")]
