@@ -24,5 +24,9 @@ namespace LMS.DataSource.Entities
         [ForeignKey("StudentID")]
         public Student ParentStudentID { get; set; }
         public int StudentID { get; set; }
+
+        [ForeignKey("DetailID")]
+        public BookDetail ParentBookDetail { get; set; }
+        public int DetailID { get; set; }
     }
 }
