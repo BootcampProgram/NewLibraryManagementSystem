@@ -156,9 +156,7 @@ namespace LMS.DataSource.Repositories
                     foreach(BookDetail book in ExpiredBookDetail)
                     {
                         bookDetail.Add(book);
-                    }
-
-                    
+                    } 
                 }
             }
 
