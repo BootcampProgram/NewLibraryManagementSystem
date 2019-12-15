@@ -18,4 +18,9 @@
     </PackageReference>
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\LMS.DataModel\LMS.DataModel.csproj" />
+  </ItemGroup>
+
 </Project>

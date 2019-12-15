@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataModel;
+using LMS.DataSource.Entities;
 using LMS.DataSource.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,18 @@ namespace LMS.DataSource.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public ICollection<BookDetail> GetAllBooks()
+        public ICollection<GetAllBooksDTO> GetAllBooks()
         {
-            var BookDetail = _appDbContext.BookDetail.ToList();
-            return BookDetail;
+            var BookDetails = (from Detail in _appDbContext.BookDetail
+                               join Shelf in _appDbContext.Shelve
+                               on Detail.ShelveID equals Shelf.ShelveID
+                               join Book in _appDbContext.BookIdentification
+                               on Detail.DetailID equals Book.DetailID
+                               join Borrow in _appDbContext.Borrowing
+                               on Book.BookID equals Borrow.BookID
+                               select new { DetailID = Detail.DetailID, Title = Detail.Title, ISBN = Detail.ISBN, ShelveCode = Shelf.Code, Availability = Borrow.Status.Where(c => c == 'B').Count() != 0 ? "Available" : "Unavailable" }).ToList();
+
+            return (ICollection<GetAllBooksDTO>) BookDetails;
         }
 
         public BookIdentification GetBookByBookID(int id)
