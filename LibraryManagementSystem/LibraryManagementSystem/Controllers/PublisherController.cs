@@ -23,31 +23,31 @@ namespace LibraryManagementSystem.Controllers
     [ApiController]
     public class PublisherController : ControllerBase
     {
-        IPublisherInterface _interfaceRepo;
+        IPublisherInterface _publisherRepo;
 
         public PublisherController(IPublisherInterface repo)
         {
-            _interfaceRepo = repo;
+            _publisherRepo = repo;
         }
 
         [HttpGet]
         public IActionResult GetAllPublishers()
         {
-            var publishers = _interfaceRepo.GetAllPublishers();
+            var publishers = _publisherRepo.GetAllPublishers();
             return Ok(publishers);
         }
 
         [HttpGet("{publisherID}")]
         public IActionResult GetPublisherByID(int publisherID)
         {
-            var publisher = _interfaceRepo.GetPublisherByID(publisherID);
+            var publisher = _publisherRepo.GetPublisherByID(publisherID);
             return Ok(publisher);
         }
 
         [HttpPost("New")]
-        public IActionResult CreateReservation([FromBody] Publisher newPublisher)
+        public IActionResult CreatePublisher([FromBody] Publisher newPublisher)
         {
-             _interfaceRepo.CreatePublisher(newPublisher);
+            _publisherRepo.CreatePublisher(newPublisher);
             return Ok();
         }
 
@@ -59,7 +59,7 @@ namespace LibraryManagementSystem.Controllers
                 return BadRequest();
             }
 
-            int update = _interfaceRepo.UpdatePublisher(publisherID, publisherObject);
+            int update = _publisherRepo.UpdatePublisher(publisherID, publisherObject);
 
             if (update == 0)
             {
@@ -79,7 +79,7 @@ namespace LibraryManagementSystem.Controllers
                 return BadRequest();
             }
 
-            _interfaceRepo.DeletePublisher(publisherID);
+            _publisherRepo.DeletePublisher(publisherID);
 
             return Ok();
         }

@@ -28,7 +28,6 @@ namespace LMS.DataSource.Repositories
 
         public void CreatePublisher(Publisher newPublisher)
         {
-
             _appDbContext.Publisher.Add(newPublisher);
             _appDbContext.SaveChanges();
 

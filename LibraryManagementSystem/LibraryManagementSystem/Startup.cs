@@ -39,6 +39,7 @@ namespace LibraryManagementSystem
             services.AddScoped<IReservationInterface, ReservationRepository>();
             services.AddScoped<IWishListInterface, WishListRepository>();
             services.AddScoped<IPublisherInterface, PublisherRepository>();
+            services.AddScoped<ILibrarianInterface, LibrarianRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
