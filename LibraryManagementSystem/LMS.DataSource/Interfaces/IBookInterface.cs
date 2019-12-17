@@ -1,4 +1,4 @@
-﻿using LMS.DataModel;
+﻿using LMS.DataSource.DTO;
 using LMS.DataSource.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace LMS.DataSource.Interfaces
     //-----------------------------------------------------------------
     public interface IBookInterface
     {
-        ICollection<GetAllBooksDTO> GetAllBooks();
+        ICollection<BookDetail> GetAllBooks();
 
         BookIdentification GetBookByBookID(int i);
 
