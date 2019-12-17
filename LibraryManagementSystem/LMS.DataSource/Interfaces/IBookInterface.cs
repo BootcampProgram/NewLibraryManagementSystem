@@ -15,7 +15,7 @@ namespace LMS.DataSource.Interfaces
     //-----------------------------------------------------------------
     public interface IBookInterface
     {
-        ICollection<BookDetail> GetAllBooks();
+        ICollection<GetAllBooksDetailDTO> GetAllBooks();
 
         BookIdentification GetBookByBookID(int i);
 

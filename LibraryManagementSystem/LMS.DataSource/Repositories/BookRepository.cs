@@ -36,9 +36,63 @@ namespace LMS.DataSource.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public ICollection<BookDetail> GetAllBooks()
+        public ICollection<GetAllBooksDetailDTO> GetAllBooks()
         {
-            var BookDetails = _appDbContext.BookDetail.ToList();
+            //var BookDetails = _appDbContext.BookDetail.ToList();
+
+            var BookDetails = (from Book in _appDbContext.BookDetail
+                               join Shelf in _appDbContext.Shelve
+                               on Book.ShelveID equals Shelf.ShelveID
+                               select new GetAllBooksDetailDTO { DetailID = Book.DetailID, Title = Book.Title, ISBN = Book.ISBN, ShelveCode = Shelf.Code, Availability = null }).ToList();
+
+            foreach(GetAllBooksDetailDTO book in BookDetails)
+            {
+                var numberOfAvailableCopies = _appDbContext.BookIdentification.Where(c => c.DetailID == book.DetailID && c.Status == "1").Count();
+                var numberOfAvailableCopyIDs = _appDbContext.BookIdentification.Where(c => c.DetailID == book.DetailID && c.Status == "1").ToList();
+
+                if (numberOfAvailableCopies == 0)
+                {
+                    book.Availability = "Not Available";
+                }
+                else
+                {
+                    var totalReservationsCount = 0;
+                    var totalBorrowingsCount = 0;
+                    foreach (BookIdentification aBook in numberOfAvailableCopyIDs)
+                    {
+                        var reservationsCount = (from BookID in _appDbContext.BookIdentification
+                                                 join Res in _appDbContext.Reservation
+                                                 on BookID.BookID equals Res.BookID
+                                                 where Res.BookID == aBook.BookID && Res.Status == "Active"
+                                                 select Res).Count();
+                        if(reservationsCount != 0)
+                        {
+                            totalReservationsCount += 1;
+                        }
+
+                        var borrowingsCount = (from BookID in _appDbContext.BookIdentification
+                                               join Bor in _appDbContext.Borrowing
+                                               on BookID.BookID equals Bor.BookID
+                                               where Bor.BookID == aBook.BookID && Bor.Status == "B"
+                                               select Bor).Count();
+                        if (borrowingsCount != 0)
+                        {
+                            totalBorrowingsCount += 1;
+                        }
+                    }
+
+                    int currentBookCount = numberOfAvailableCopies - (totalReservationsCount + totalBorrowingsCount);
+
+                    if (currentBookCount == 0)
+                    {
+                        book.Availability = "No";
+                    }
+                    else
+                    {
+                        book.Availability = "Yes";
+                    }
+                }
+            }
 
             return BookDetails;
         }
