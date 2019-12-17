@@ -13,7 +13,7 @@ namespace LMS.DataSource.Interfaces
 
         void CreateUser(User newUser);
 
-        int UpdateUser(int librarianID, User userObject);
+        int UpdateUser(int userID, User userObject);
 
         int ResetPassword(int userID);
 

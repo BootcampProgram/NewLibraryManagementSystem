@@ -40,10 +40,10 @@ namespace LibraryManagementSystem.Controllers
             return Ok(reservations);
         }
 
-        [HttpGet("{ID}")]
-        public IActionResult GetReservationByStudentID(int ID)
+        [HttpGet("{studentID}")]
+        public IActionResult GetReservationByStudentID(int studentID)
         {
-            var reservation = _reservationRepo.GetReservationsByStudentID(ID);
+            var reservation = _reservationRepo.GetReservationsByStudentID(studentID);
             return Ok(reservation);
         }
 
@@ -91,10 +91,10 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
-        [HttpPut("SubShelve/{ID}")]
-        public IActionResult AddedToSubShelve(int ID)
+        [HttpPut("SubShelve/{reservationID}")]
+        public IActionResult AddedToSubShelve(int reservationID)
         {
-            var ChangeShelve = _reservationRepo.AddedToSubShelve(ID);
+            var ChangeShelve = _reservationRepo.AddedToSubShelve(reservationID);
 
             if (ChangeShelve == 0)
             {
@@ -106,10 +106,10 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
-        [HttpPut("MainShelve/{ID}")]
-        public IActionResult ReturnedToMainShelve(int ID)
+        [HttpPut("MainShelve/{reservationID}")]
+        public IActionResult ReturnedToMainShelve(int reservationID)
         {
-            var ChangeShelve = _reservationRepo.ReturnedToMainShelve(ID);
+            var ChangeShelve = _reservationRepo.ReturnedToMainShelve(reservationID);
 
             if (ChangeShelve == 0)
             {
@@ -121,10 +121,10 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
-        [HttpPut("Cancel/{ID}")]
-        public IActionResult CancelReservation(int ID)
+        [HttpPut("Cancel/{reservationID}")]
+        public IActionResult CancelReservation(int reservationID)
         {
-            var cancel = _reservationRepo.CancelReservation(ID);
+            var cancel = _reservationRepo.CancelReservation(reservationID);
             if (cancel == 0)
             {
                 return BadRequest();

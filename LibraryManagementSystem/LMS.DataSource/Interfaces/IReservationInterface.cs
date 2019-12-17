@@ -19,7 +19,7 @@ namespace LMS.DataSource.Interfaces
     {
         ICollection<Reservation> GetAllReservations();
 
-        ICollection<BookDetail> GetReservationsByStudentID(int ID);
+        ICollection<BookDetail> GetReservationsByStudentID(int studentID);
 
         ICollection<Reservation> GetReservationsByStatus(string status);
 
@@ -27,12 +27,12 @@ namespace LMS.DataSource.Interfaces
 
         int UpdateStatus(string status);
 
-        int AddedToSubShelve(int ID);
+        int AddedToSubShelve(int reservationID);
 
-        int ReturnedToMainShelve(int ID);
+        int ReturnedToMainShelve(int reservationID);
 
         int CreateReservation(Reservation newReservation);
 
-        int CancelReservation(int ID);
+        int CancelReservation(int reservationID);
     }
 }

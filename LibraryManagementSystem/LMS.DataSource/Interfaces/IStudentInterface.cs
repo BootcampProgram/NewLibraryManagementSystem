@@ -19,12 +19,12 @@ namespace LMS.DataSource.Interfaces
     {
         ICollection<Student> GetAllStudents();
 
-        Student GetStudentByID(int ID);
+        Student GetStudentByID(int studentID);
 
         ICollection<Student> GetStudentsByAttribute(string Attribute);
 
-        int BlockStudent(int id);
+        int BlockStudent(int studentID);
 
-        int ResetPassword(int id);
+        int ResetPassword(int studentID);
     }
 }

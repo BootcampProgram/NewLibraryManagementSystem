@@ -26,12 +26,12 @@ namespace LMS.DataSource.Repositories
             _appDbContext = dbContext;
         }
 
-        public int BlockStudent(int ID)
+        public int BlockStudent(int studentID)
         {
             var student = (from _Student in _appDbContext.Student
                            join _User in _appDbContext.User
                            on _Student.StudentId equals _User.RoleID
-                           where _User.Role == 's' && _User.RoleID == ID
+                           where _User.Role == 's' && _User.RoleID == studentID
                            select _User).FirstOrDefault();
 
             if (student == null)
@@ -60,19 +60,19 @@ namespace LMS.DataSource.Repositories
             return Students;
         }
 
-        public Student GetStudentByID(int ID)
+        public Student GetStudentByID(int studentID)
         {
-            var student = _appDbContext.Student.Where(c => c.StudentId == ID).SingleOrDefault();
+            var student = _appDbContext.Student.Where(c => c.StudentId == studentID).SingleOrDefault();
             return student;
         }
 
-        public int ResetPassword(int ID)
+        public int ResetPassword(int studentID)
         {
             var Student = (from _Student in _appDbContext.Student
-                                        join _User in _appDbContext.User
-                                        on _Student.StudentId equals _User.RoleID
-                                        where _User.Role == 's' && _User.RoleID == ID
-                                        select _User).FirstOrDefault();
+                           join _User in _appDbContext.User
+                           on _Student.StudentId equals _User.RoleID
+                           where _User.Role == 's' && _User.RoleID == studentID
+                           select _User).FirstOrDefault();
 
             if(Student == null)
             {

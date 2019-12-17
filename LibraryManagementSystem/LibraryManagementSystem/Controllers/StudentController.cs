@@ -39,17 +39,17 @@ namespace LibraryManagementSystem.Controllers
         }
 
 
-        [HttpGet("{ID}")]
-        public IActionResult GetStudentByID(int ID)
+        [HttpGet("{studentID}")]
+        public IActionResult GetStudentByID(int studentID)
         {
-            var student = _studentRepo.GetStudentByID(ID);
+            var student = _studentRepo.GetStudentByID(studentID);
             return Ok(student);
         }
 
-        [HttpPut("reset/{ID}")]
-        public IActionResult ResetPassword(int ID)
+        [HttpPut("reset/{studentID}")]
+        public IActionResult ResetPassword(int studentID)
         {
-            var successReset = _studentRepo.ResetPassword(ID);
+            var successReset = _studentRepo.ResetPassword(studentID);
 
             if(successReset == 0)
             {
@@ -61,10 +61,10 @@ namespace LibraryManagementSystem.Controllers
             }
         }
 
-        [HttpPut("block/{ID}")]
-        public IActionResult BlockUser(int ID)
+        [HttpPut("block/{studentID}")]
+        public IActionResult BlockUser(int studentID)
         {
-            var successBlock = _studentRepo.BlockStudent(ID);
+            var successBlock = _studentRepo.BlockStudent(studentID);
 
             if(successBlock == 0)
             {

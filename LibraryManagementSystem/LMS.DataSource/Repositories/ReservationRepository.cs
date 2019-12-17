@@ -25,9 +25,9 @@ namespace LMS.DataSource.Repositories
             _appDbContext = dbContext;
         }
 
-        public int AddedToSubShelve(int ID)
+        public int AddedToSubShelve(int reservationID)
         {
-            var student = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Shelve == "Main").FirstOrDefault();
+            var student = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID && c.Shelve == "Main").FirstOrDefault();
 
             if (student == null)
             {
@@ -41,9 +41,9 @@ namespace LMS.DataSource.Repositories
             }
         }
 
-        public int CancelReservation(int ID)
+        public int CancelReservation(int reservationID)
         {
-            var reservation = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Status == "Active").FirstOrDefault();
+            var reservation = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID && c.Status == "Active").FirstOrDefault();
 
             if (reservation == null)
             {
@@ -110,10 +110,10 @@ namespace LMS.DataSource.Repositories
             return ReservationStatus;
         }
 
-        public ICollection<BookDetail> GetReservationsByStudentID(int ID)
+        public ICollection<BookDetail> GetReservationsByStudentID(int studentID)
         {
             //check is that expired
-            var reservations = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Active").ToList();
+            var reservations = _appDbContext.Reservation.Where(c => c.StudentId == studentID && c.Status == "Active").ToList();
 
             DateTime getCurrentDateTime = DateTime.Now;
 
@@ -133,11 +133,11 @@ namespace LMS.DataSource.Repositories
                               on _reservation.BookID equals _bookID.BookID
                               join _bookDetail in _appDbContext.BookDetail
                               on _bookID.DetailID equals _bookDetail.DetailID
-                              where _reservation.StudentId == ID && _reservation.Status == "Active"
+                              where _reservation.StudentId == studentID && _reservation.Status == "Active"
                               select _bookDetail).ToList();
 
             //Showing recent expired book details
-            var ExpiredReservations = _appDbContext.Reservation.Where(c => c.StudentId == ID && c.Status == "Expired").ToList();
+            var ExpiredReservations = _appDbContext.Reservation.Where(c => c.StudentId == studentID && c.Status == "Expired").ToList();
 
             foreach (Reservation record in ExpiredReservations)
             {
@@ -163,9 +163,9 @@ namespace LMS.DataSource.Repositories
             return bookDetail;
         }
 
-        public int ReturnedToMainShelve(int ID)
+        public int ReturnedToMainShelve(int reservationID)
         {
-            var student = _appDbContext.Reservation.Where(c => c.ReservationId == ID && c.Shelve=="Sub").FirstOrDefault();
+            var student = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID && c.Shelve=="Sub").FirstOrDefault();
 
             if (student == null)
             {
