@@ -34,7 +34,7 @@ namespace LMS.DataSource.Entities
 
         public double Price { get; set; }
 
-        public string CoverImage { get; set; }
+        //public string CoverImage { get; set; }
 
         [ForeignKey("PublisherID")]
         public Publisher ParentPublisher { get; set; }
