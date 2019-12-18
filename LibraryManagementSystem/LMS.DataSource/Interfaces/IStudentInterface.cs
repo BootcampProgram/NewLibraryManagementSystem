@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace LMS.DataSource.Interfaces
 
     public interface IStudentInterface
     {
-        ICollection<Student> GetAllStudents();
+        ICollection<GetAllStudentsDTO> GetAllStudents();
 
         Student GetStudentByID(int studentID);
 

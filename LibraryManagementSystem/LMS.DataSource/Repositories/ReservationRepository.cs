@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
 using LMS.DataSource.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -73,29 +74,60 @@ namespace LMS.DataSource.Repositories
             }
         }
 
-        public ICollection<Reservation> GetAllReservations()
+        public ICollection<GetAllReservationsDTO> GetAllReservations()
         {
-            //var reservations = _appDbContext.Reservation.ToList();
-            //return reservations;
+            var reservation = (from _reservation in _appDbContext.Reservation
+                               join _bookID in _appDbContext.BookIdentification
+                               on _reservation.BookID equals _bookID.BookID
+                               join _bookDetail in _appDbContext.BookDetail
+                               on _bookID.DetailID equals _bookDetail.DetailID
+                               join _student in _appDbContext.Student
+                               on _reservation.StudentId equals _student.StudentId
+                               join _publisher in _appDbContext.Publisher
+                               on _bookDetail.PublisherID equals _publisher.PublisherID
+                               join _genre in _appDbContext.Genre
+                               on _bookDetail.GenreID equals _genre.GenreID
+                               join _shelve in _appDbContext.Shelve
+                               on _bookDetail.ShelveID equals _shelve.ShelveID
+                               select new GetAllReservationsDTO {
+                                   DetailID = _bookDetail.DetailID,
+                                   Title = _bookDetail.Title, 
+                                   ISBN = _bookDetail.ISBN, 
+                                   Genre = _genre.Name, 
+                                   Language = _bookDetail.Language, 
+                                   Status = _reservation.Status, 
+                                   Shelve = _shelve.Code,
+                                   CoverImage = _bookDetail.CoverImage, 
+                                   studentFullName = _student.FirstName + " " + _student.LastName, 
+                                   Grade = (_student.Grade).ToString() + " " + (_student.Section).ToString(), 
+                                   StudentId = _student.StudentId, 
+                                   Publisher = _publisher.Name}).ToList();
 
-            //var reservations = _appDbContext.Reservation.Where(c => c.Status == "Active").ToList();
+            
 
-            //DateTime getCurrentDateTime = DateTime.Now;
-
-            //foreach (Reservation record in reservations)
-            //{
-            //    var hours = (getCurrentDateTime - record.DateReserved).TotalHours;
-
-            //    if (hours >= 24)
-            //    {
-            //        record.Status = "Expired";
-            //        _appDbContext.SaveChanges();
-            //    }
-            //}
-
-            //return 1;
-
-            throw new NotImplementedException();
+            foreach (GetAllReservationsDTO resvDetails in reservation)
+            {
+                var author = (from _bookDetailAuthor in _appDbContext.BookDetailAuthor
+                              join _author in _appDbContext.Author
+                              on _bookDetailAuthor.AuthorId equals _author.AuthortId
+                              join _bookDetail in _appDbContext.BookDetail
+                              on _bookDetailAuthor.DetailID equals _bookDetail.DetailID
+                              where _bookDetailAuthor.DetailID == resvDetails.DetailID
+                              select _author.Name).ToList();
+                foreach(string auth in author)
+                {
+                    if(author.Count() == 1)
+                    {
+                        resvDetails.Author = auth;
+                    }
+                    else
+                    {
+                        resvDetails.Author += auth + "  ";
+                    }
+                    
+                }
+            }
+            return reservation;
         }
 
         public ICollection<Reservation> GetReservationsByShelve(string shelve)

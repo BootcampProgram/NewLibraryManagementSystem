@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
 using LMS.DataSource.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -48,11 +49,12 @@ namespace LMS.DataSource.Repositories
             }
         }
 
-        public ICollection<Student> GetAllStudents()
+        public ICollection<GetAllStudentsDTO> GetAllStudents()
         {
-            var students = _appDbContext.Student.ToList();
+            //var students = _appDbContext.Student.ToList();
 
-            //var fullName =  
+            var students = (from _students in _appDbContext.Student
+                            select new GetAllStudentsDTO { StudentId = _students.StudentId, FullName = _students.FirstName +" "+ _students.LastName}).ToList();
             return students;
         }
 
