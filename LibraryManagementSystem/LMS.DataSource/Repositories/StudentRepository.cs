@@ -51,6 +51,8 @@ namespace LMS.DataSource.Repositories
         public ICollection<Student> GetAllStudents()
         {
             var students = _appDbContext.Student.ToList();
+
+            //var fullName =  
             return students;
         }
 
