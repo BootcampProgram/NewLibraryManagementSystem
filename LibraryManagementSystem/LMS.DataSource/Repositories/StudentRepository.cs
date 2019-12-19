@@ -54,13 +54,24 @@ namespace LMS.DataSource.Repositories
             //var students = _appDbContext.Student.ToList();
 
             var students = (from _students in _appDbContext.Student
-                            select new GetAllStudentsDTO { StudentId = _students.StudentId, FullName = _students.FirstName +" "+ _students.LastName}).ToList();
+                            select new GetAllStudentsDTO { StudentId = _students.StudentId, 
+                                FullName = _students.FirstName +" "+ _students.LastName}).ToList();
             return students;
         }
 
         public ICollection<Student> GetStudentsByAttribute(string Attribute)
         {
-            var Students = _appDbContext.Student.Where(c => c.StudentId.ToString().Contains(Attribute) || c.FirstName.Contains(Attribute) || c.LastName.Contains(Attribute) || c.DateOfBirth.ToString().Contains(Attribute) || c.Gender.Contains(Attribute) || c.Address.Contains(Attribute) || c.LandNo.Contains(Attribute) || c.ParentMobileNo.Contains(Attribute) || c.Grade.ToString().Contains(Attribute) || c.Section.ToString().Contains(Attribute) || c.Medium.Contains(Attribute)).ToList();
+            var Students = _appDbContext.Student.Where(c => c.StudentId.ToString().Contains(Attribute) 
+                                                        || c.FirstName.Contains(Attribute) 
+                                                        || c.LastName.Contains(Attribute) 
+                                                        || c.DateOfBirth.ToString().Contains(Attribute) 
+                                                        || c.Gender.Contains(Attribute) 
+                                                        || c.Address.Contains(Attribute) 
+                                                        || c.LandNo.Contains(Attribute) 
+                                                        || c.ParentMobileNo.Contains(Attribute) 
+                                                        || c.Grade.ToString().Contains(Attribute) 
+                                                        || c.Section.ToString().Contains(Attribute) 
+                                                        || c.Medium.Contains(Attribute)).ToList();
             return Students;
         }
 
