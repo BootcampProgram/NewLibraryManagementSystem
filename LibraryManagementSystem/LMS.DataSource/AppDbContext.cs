@@ -10,7 +10,7 @@ namespace LMS.DataSource
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            Database.Migrate();
+            Database.EnsureCreated();
         }
 
         public DbSet<Author> Author { get; set; }
@@ -31,7 +31,11 @@ namespace LMS.DataSource
         protected override void OnConfiguring(DbContextOptionsBuilder build)
         {
 
+<<<<<<< Updated upstream
             string SQLConnectionString = "Server=DESKTOP-1TKFKA1\\SQLEXPRESS;Database=LMSDatabase;Trusted_Connection=true";
+=======
+            string SQLConnectionString = "Server=DESKTOP-EK4IBKP;Database=LMSDatabase;Trusted_Connection=true";
+>>>>>>> Stashed changes
 
             build.UseSqlServer(SQLConnectionString);
 
