@@ -4,6 +4,26 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="DTO\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <None Remove="DTO\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="DTO\GetAllBooksDetailDTO.cs" />
+    <Compile Include="DTO\GetAllReservationsDTO.cs" />
+    <Compile Include="DTO\GetAllStudentsDTO.cs" />
+    <Compile Include="DTO\GetBorrowingsHistoryDTO.cs" />
+    <Compile Include="DTO\GetPresentBorrowingsDTO.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -17,5 +37,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
 
 </Project>

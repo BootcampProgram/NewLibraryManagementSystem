@@ -29,6 +29,9 @@ namespace LMS.DataSource.Repositories
 
         public int BlockStudent(int studentID)
         {
+
+            //take from include
+
             var student = (from _Student in _appDbContext.Student
                            join _User in _appDbContext.User
                            on _Student.StudentId equals _User.RoleID
@@ -54,13 +57,24 @@ namespace LMS.DataSource.Repositories
             //var students = _appDbContext.Student.ToList();
 
             var students = (from _students in _appDbContext.Student
-                            select new GetAllStudentsDTO { StudentId = _students.StudentId, FullName = _students.FirstName +" "+ _students.LastName}).ToList();
+                            select new GetAllStudentsDTO { StudentId = _students.StudentId, 
+                                FullName = _students.FirstName +" "+ _students.LastName}).ToList();
             return students;
         }
 
         public ICollection<Student> GetStudentsByAttribute(string Attribute)
         {
-            var Students = _appDbContext.Student.Where(c => c.StudentId.ToString().Contains(Attribute) || c.FirstName.Contains(Attribute) || c.LastName.Contains(Attribute) || c.DateOfBirth.ToString().Contains(Attribute) || c.Gender.Contains(Attribute) || c.Address.Contains(Attribute) || c.LandNo.Contains(Attribute) || c.ParentMobileNo.Contains(Attribute) || c.Grade.ToString().Contains(Attribute) || c.Section.ToString().Contains(Attribute) || c.Medium.Contains(Attribute)).ToList();
+            var Students = _appDbContext.Student.Where(c => c.StudentId.ToString().Contains(Attribute) 
+                                                        || c.FirstName.Contains(Attribute) 
+                                                        || c.LastName.Contains(Attribute) 
+                                                        || c.DateOfBirth.ToString().Contains(Attribute) 
+                                                        || c.Gender.Contains(Attribute) 
+                                                        || c.Address.Contains(Attribute) 
+                                                        || c.LandNo.Contains(Attribute) 
+                                                        || c.ParentMobileNo.Contains(Attribute) 
+                                                        || c.Grade.ToString().Contains(Attribute) 
+                                                        || c.Section.ToString().Contains(Attribute) 
+                                                        || c.Medium.Contains(Attribute)).ToList();
             return Students;
         }
 
@@ -68,6 +82,8 @@ namespace LMS.DataSource.Repositories
         {
             var student = _appDbContext.Student.Where(c => c.StudentId == studentID).SingleOrDefault();
             return student;
+
+            //validations
         }
 
         public int ResetPassword(int studentID)
@@ -81,6 +97,8 @@ namespace LMS.DataSource.Repositories
             if(Student == null)
             {
                 return 0;
+
+                //throw an exception
             }
             else
             {
