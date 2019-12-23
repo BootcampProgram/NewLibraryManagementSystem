@@ -34,6 +34,18 @@ namespace LibraryManagementSystem
             string SQLConnectionString = Configuration["connectionString:LMSDbConnectionString"];
             services.AddDbContext<AppDbContext>(a => a.UseSqlServer(SQLConnectionString));
 
+            //Cors Enable
+           services.AddCors(options =>
+            {
+                options.AddPolicy("MyAllowSpecificOrigins",
+                    builder =>
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin());
+            });
+
+            //Cors end
+
             services.AddScoped<IStudentInterface, StudentRepository>();
             services.AddScoped<IReservationInterface, ReservationRepository>();
             services.AddScoped<IWishListInterface, WishListRepository>();
@@ -57,6 +69,8 @@ namespace LibraryManagementSystem
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyAllowSpecificOrigins");
 
             app.UseAuthorization();
 
