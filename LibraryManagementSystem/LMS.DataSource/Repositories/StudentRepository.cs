@@ -29,6 +29,9 @@ namespace LMS.DataSource.Repositories
 
         public int BlockStudent(int studentID)
         {
+
+            //take from include
+
             var student = (from _Student in _appDbContext.Student
                            join _User in _appDbContext.User
                            on _Student.StudentId equals _User.RoleID
@@ -79,6 +82,8 @@ namespace LMS.DataSource.Repositories
         {
             var student = _appDbContext.Student.Where(c => c.StudentId == studentID).SingleOrDefault();
             return student;
+
+            //validations
         }
 
         public int ResetPassword(int studentID)
@@ -92,6 +97,8 @@ namespace LMS.DataSource.Repositories
             if(Student == null)
             {
                 return 0;
+
+                //throw an exception
             }
             else
             {
