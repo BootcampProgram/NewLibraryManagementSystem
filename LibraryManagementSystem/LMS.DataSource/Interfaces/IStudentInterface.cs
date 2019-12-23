@@ -1,10 +1,10 @@
-﻿using System;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace LMS.DataSource.Entities
+namespace LMS.DataSource.Interfaces
 {
 
     //-----------------------------------------------------------------
@@ -16,14 +16,16 @@ namespace LMS.DataSource.Entities
     //-----------------------------------------------------------------
 
 
-    public class Publisher
+    public interface IStudentInterface
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        ICollection<GetAllStudentsDTO> GetAllStudents();
 
-        public int PublisherID { get; set; }
+        Student GetStudentByID(int studentID);
 
-        [Required]
-        public string Name { get; set; }
+        ICollection<Student> GetStudentsByAttribute(string Attribute);
+
+        int BlockStudent(int studentID);
+
+        int ResetPassword(int studentID);
     }
 }

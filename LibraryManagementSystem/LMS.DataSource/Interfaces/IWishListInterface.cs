@@ -1,29 +1,25 @@
-﻿using System;
+﻿using LMS.DataSource.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace LMS.DataSource.Entities
+namespace LMS.DataSource.Interfaces
 {
 
     //-----------------------------------------------------------------
     //$Developer                :  Iresha Silva
-    //$Created on               :  10/12/2019
+    //$Created on               :  13/12/2019
     //$Mobile No                :  0778377630
     //$Email                    :  ireshasilva96@gmail.com
     //$Description (If Any)     : 
     //-----------------------------------------------------------------
 
 
-    public class Publisher
+    public interface IWishListInterface
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        void CreateWishListItem(WishList newWishList);
 
-        public int PublisherID { get; set; }
+        void DeleteWishListItemByID(int wishListID);
 
-        [Required]
-        public string Name { get; set; }
     }
 }
