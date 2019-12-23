@@ -13,6 +13,9 @@
   <ItemGroup>
     <Compile Include="DTO\GetAllBooksDetailDTO.cs" />
     <Compile Include="DTO\GetAllReservationsDTO.cs" />
+    <Compile Include="DTO\GetAllStudentsDTO.cs" />
+    <Compile Include="DTO\GetBorrowingsHistoryDTO.cs" />
+    <Compile Include="DTO\GetPresentBorrowingsDTO.cs" />
   </ItemGroup>
 
 
