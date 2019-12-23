@@ -34,6 +34,14 @@ namespace LibraryManagementSystem
             string SqlConnectionString = Configuration["DbConnection:DbConnectionString"];
             services.AddDbContext<AppDbContext>(c => c.UseSqlServer(SqlConnectionString));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyAllowSpecificOrigins",
+                    builder =>
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin());
+            });
 
             services.AddScoped<IBookInterface, BookRepository>();
             //services.AddScoped<IBookInterface, BookRepository>();
@@ -50,6 +58,8 @@ namespace LibraryManagementSystem
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyAllowSpecificOrigins");
 
             app.UseAuthorization();
 
