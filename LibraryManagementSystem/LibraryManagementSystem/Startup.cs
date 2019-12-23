@@ -31,7 +31,6 @@ namespace LibraryManagementSystem
         {
             services.AddControllers();
 
-
             string SQLConnectionString = Configuration["connectionString:LMSDbConnectionString"];
             services.AddDbContext<AppDbContext>(a => a.UseSqlServer(SQLConnectionString));
 
@@ -44,6 +43,7 @@ namespace LibraryManagementSystem
             services.AddScoped<IGenreInterface, GenreRepository>();
             services.AddScoped<IBookIdentificationInterface, BookIdentificationRepository>();
             services.AddScoped<IBorrowingInterface, BorrowingRepository>();
+            services.AddScoped<IBookInterface, BookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

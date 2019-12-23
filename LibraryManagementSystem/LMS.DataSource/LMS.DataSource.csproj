@@ -10,6 +10,16 @@
     <None Remove="DTO\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="DTO\GetAllBooksDetailDTO.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -23,5 +33,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
 
 </Project>
