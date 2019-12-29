@@ -97,9 +97,58 @@ namespace LMS.DataSource.Repositories
             return BookDetails;
         }
 
-        public BookIdentification GetBookByBookID(int id)
+        public GetBookDetailsDTO GetBookByBookID(int id)
         {
-            var Book = _appDbContext.BookIdentification.Where(c => c.BookID == id).SingleOrDefault();
+            var Book = (from bookDetail in _appDbContext.BookDetail
+                        join publisher in _appDbContext.Publisher
+                        on bookDetail.PublisherID equals publisher.PublisherID
+                        join genre in _appDbContext.Genre
+                        on bookDetail.GenreID equals genre.GenreID
+                        join shelve in _appDbContext.Shelve
+                        on bookDetail.ShelveID equals shelve.ShelveID
+                        where bookDetail.DetailID == id
+                        select new GetBookDetailsDTO
+                        {
+                            CoverImage = bookDetail.CoverImage,
+                            Title = bookDetail.Title,
+                            ISBN = bookDetail.ISBN,
+                            Publisher = publisher.Name,
+                            Genre = genre.Name,
+                            Shelve = shelve.Code,
+                            Language = bookDetail.Language,
+                            Year = bookDetail.Year,
+                            Price = bookDetail.Price
+                        }).FirstOrDefault();
+
+            if(Book != null)
+            {
+                var getAuthors = (from bookDetail in _appDbContext.BookDetail
+                                  join bookAuthor in _appDbContext.BookDetailAuthor
+                                  on bookDetail.DetailID equals bookAuthor.DetailID
+                                  join author in _appDbContext.Author
+                                  on bookAuthor.AuthorId equals author.AuthortId
+                                  where bookDetail.DetailID == id
+                                  select author.Name).ToList();
+
+                Book.Author = getAuthors;
+
+                var bookCopies = (from bookDetail in _appDbContext.BookDetail
+                                  join bookId in _appDbContext.BookIdentification
+                                  on bookDetail.DetailID equals bookId.DetailID
+                                  where bookDetail.DetailID == id
+                                  select new IndividualBookStatusDTO { BookID = bookId.BookID }).ToList();
+
+                foreach(IndividualBookStatusDTO book in bookCopies)
+                {
+                    book.Status = _appDbContext.BookIdentification.Where(c => c.BookID == book.BookID && c.Status == "0").FirstOrDefault() != null ? "Mispelled" 
+                        : (_appDbContext.Borrowing.Where(c => c.BookID == book.BookID && c.Status == "B").FirstOrDefault() != null ? "Borrowed" 
+                        : (_appDbContext.Reservation.Where(c => c.BookID == book.BookID && c.Status == "Active").FirstOrDefault() != null ? "Reserved" 
+                        : "Available"));
+                }
+
+                Book.Copies = bookCopies;
+            }
+            //var Book = _appDbContext.BookIdentification.Where(c => c.BookID == id).SingleOrDefault();
             return Book;
         }
 
