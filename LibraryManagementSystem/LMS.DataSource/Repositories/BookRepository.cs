@@ -140,7 +140,7 @@ namespace LMS.DataSource.Repositories
 
                 foreach(IndividualBookStatusDTO book in bookCopies)
                 {
-                    book.Status = _appDbContext.BookIdentification.Where(c => c.BookID == book.BookID && c.Status == "0").FirstOrDefault() != null ? "Mispelled" 
+                    book.Status = _appDbContext.BookIdentification.Where(c => c.BookID == book.BookID && c.Status == "0").FirstOrDefault() != null ? "Misplaced"
                         : (_appDbContext.Borrowing.Where(c => c.BookID == book.BookID && c.Status == "B").FirstOrDefault() != null ? "Borrowed" 
                         : (_appDbContext.Reservation.Where(c => c.BookID == book.BookID && c.Status == "Active").FirstOrDefault() != null ? "Reserved" 
                         : "Available"));
