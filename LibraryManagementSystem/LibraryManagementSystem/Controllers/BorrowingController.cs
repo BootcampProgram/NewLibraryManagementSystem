@@ -20,18 +20,11 @@ namespace LibraryManagementSystem.Controllers
             _borrowingRepo = repo;
         }
 
-        [HttpGet("History")]
-        public IActionResult GetBorrowingsHistory()
+        [HttpGet("student/{studentID}")]
+        public IActionResult GetAllBorrowingsByStudentIDCon(int studentID)
         {
-            var borrowings = _borrowingRepo.GetBorrowingsHistory();
-            return Ok(borrowings);
-        }
-
-        [HttpGet("Present")]
-        public IActionResult GetPresentBorrowings()
-        {
-            var borrowings = _borrowingRepo.GetPresentBorrowings();
-            return Ok(borrowings);
+            var borrowing = _borrowingRepo.GetAllBorrowingsByStudentID(studentID);
+            return Ok(borrowing);
         }
 
         [HttpGet("{borrowingID}")]
@@ -41,14 +34,14 @@ namespace LibraryManagementSystem.Controllers
             return Ok(borrowing);
         }
 
-        [HttpGet("{boookID)}")]
+        [HttpGet("book/{boookID)}")]
         public IActionResult GetBorrowingByBookID(int boookID)
         {
             var borrowing = _borrowingRepo.GetBorrowingByBookID(boookID);
             return Ok(borrowing);
         }
 
-        [HttpGet("{studentID)}")]
+        [HttpGet("stu/{studentID}")]
         public IActionResult GetBorrowingByStudentID(int studentID)
         {
             var borrowing = _borrowingRepo.GetBorrowingByStudentID(studentID);
