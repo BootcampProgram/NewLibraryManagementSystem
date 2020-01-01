@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Controllers
 {
-    [Route("api/Borrowing")]
+    [Route("api/borrowing")]
     [ApiController]
     public class BorrowingController : ControllerBase
     {
@@ -23,6 +23,10 @@ namespace LibraryManagementSystem.Controllers
         [HttpGet("student/{studentID}")]
         public IActionResult GetAllBorrowingsByStudentIDCon(int studentID)
         {
+            if(studentID <= 0)
+            {
+                return BadRequest();
+            }
             var borrowing = _borrowingRepo.GetAllBorrowingsByStudentID(studentID);
             return Ok(borrowing);
         }
@@ -41,7 +45,7 @@ namespace LibraryManagementSystem.Controllers
             return Ok(borrowing);
         }
 
-        [HttpGet("stu/{studentID}")]
+        [HttpGet("example/{studentID}")]
         public IActionResult GetBorrowingByStudentID(int studentID)
         {
             var borrowing = _borrowingRepo.GetBorrowingByStudentID(studentID);
