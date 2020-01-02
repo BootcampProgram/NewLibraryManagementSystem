@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Compile Include="DTO\GetAllBooksDetailDTO.cs" />
+    <Compile Include="DTO\GetAllBorrowingsByStudentIdDTO.cs" />
     <Compile Include="DTO\GetAllReservationsDTO.cs" />
     <Compile Include="DTO\GetAllStudentsDTO.cs" />
     <Compile Include="DTO\GetBookDetailsDTO.cs" />
