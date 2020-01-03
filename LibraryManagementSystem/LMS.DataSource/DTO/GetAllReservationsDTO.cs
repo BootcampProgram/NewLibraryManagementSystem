@@ -6,7 +6,14 @@ namespace LMS.DataSource.DTO
 {
     public class GetAllReservationsDTO
     {
+        public int ReservationID { get; set; }
+
+        public DateTime DateReserved { get; set; }
+
+        public int BookID { get; set; }
+
         public int DetailID { get; set; }
+
         public string Title { get; set; }
 
         public string Author { get; set; }
@@ -20,6 +27,8 @@ namespace LMS.DataSource.DTO
         public string Publisher { get; set; }
 
         public string Status { get; set; }
+
+        public string ShelveCode { get; set; }
 
         public string Shelve { get; set; }
 
