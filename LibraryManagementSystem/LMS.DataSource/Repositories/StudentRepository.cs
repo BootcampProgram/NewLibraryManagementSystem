@@ -52,6 +52,28 @@ namespace LMS.DataSource.Repositories
             }
         }
 
+        public int UnblockStudent(int studentID)
+        {
+            var student = (from _Student in _appDbContext.Student
+                           join _User in _appDbContext.User
+                           on _Student.StudentId equals _User.RoleID
+                           where _User.Role == 's' && _User.RoleID == studentID
+                           select _User).FirstOrDefault();
+
+            if (student == null)
+            {
+                return 0;
+            }
+            else
+            {
+                student.Status = true;
+
+                _appDbContext.SaveChanges();
+
+                return 1;
+            }
+        }
+
         public ICollection<GetAllStudentsDTO> GetAllStudents()
         {
             //var students = _appDbContext.Student.ToList();
@@ -62,7 +84,8 @@ namespace LMS.DataSource.Repositories
                             where user.Role == 'S'
                             select new GetAllStudentsDTO {
                                 StudentId = student.StudentId,
-                                FullName = student.FirstName + " " + student.LastName
+                                FullName = student.FirstName + " " + student.LastName,
+                                Status = user.Status
                             }).ToList();
             return students;
         }
@@ -96,7 +119,7 @@ namespace LMS.DataSource.Repositories
             var Student = (from _Student in _appDbContext.Student
                            join _User in _appDbContext.User
                            on _Student.StudentId equals _User.RoleID
-                           where _User.Role == 's' && _User.RoleID == studentID
+                           where _User.Role == 'S' && _User.RoleID == studentID
                            select _User).FirstOrDefault();
 
             if(Student == null)

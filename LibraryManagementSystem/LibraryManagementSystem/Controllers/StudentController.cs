@@ -77,6 +77,22 @@ namespace LibraryManagementSystem.Controllers
         }
 
 
+        [HttpPut("unblock/{studentID}")]
+        public IActionResult UnblockUser(int studentID)
+        {
+            var successUnblock = _studentRepo.UnblockStudent(studentID);
+
+            if (successUnblock == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+
         [HttpGet("Attribute/{Attribute}")]
         public IActionResult GetStudentsByAttribute(string Attribute)
         {
