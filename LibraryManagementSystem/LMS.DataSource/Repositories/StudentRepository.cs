@@ -56,9 +56,14 @@ namespace LMS.DataSource.Repositories
         {
             //var students = _appDbContext.Student.ToList();
 
-            var students = (from _students in _appDbContext.Student
-                            select new GetAllStudentsDTO { StudentId = _students.StudentId, 
-                                FullName = _students.FirstName +" "+ _students.LastName}).ToList();
+            var students = (from user in _appDbContext.User
+                            join student in _appDbContext.Student
+                            on user.RoleID equals student.StudentId
+                            where user.Role == 'S'
+                            select new GetAllStudentsDTO {
+                                StudentId = student.StudentId,
+                                FullName = student.FirstName + " " + student.LastName
+                            }).ToList();
             return students;
         }
 
