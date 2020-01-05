@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
 using LMS.DataSource.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,20 @@ namespace LMS.DataSource.Repositories
         {
             var bookIdentification = _appDbContext.BookIdentification.Where(c => c.BookID == bookID).SingleOrDefault();
             return bookIdentification;
+        }
+
+        public int GetGeneratedBookIdByDetailID(int detailID)
+        {
+            var isFound = _appDbContext.BookIdentification.Where(c => c.DetailID == detailID).FirstOrDefault();
+            if(isFound == null)
+            {
+                return 0;
+            }
+            else
+            {
+                var generatedBookId = _appDbContext.BookIdentification.Where(c => c.DetailID == detailID).Max(s => s.BookID);
+                return generatedBookId;
+            }
         }
 
         public int UpdateBookIdentification(int bookID, BookIdentification bookIdentificationObject)
