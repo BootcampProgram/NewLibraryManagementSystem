@@ -35,5 +35,7 @@ namespace LMS.DataSource.Interfaces
         int CreateReservation(Reservation newReservation);
 
         int CancelReservation(int reservationID);
+
+        void DeleteReservations(int reservationID);
     }
 }
