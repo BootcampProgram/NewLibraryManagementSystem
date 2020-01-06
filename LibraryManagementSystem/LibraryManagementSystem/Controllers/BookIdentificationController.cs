@@ -34,6 +34,13 @@ namespace LibraryManagementSystem.Controllers
             return Ok(bookIdentification);
         }
 
+        [HttpGet("new/{detailID}")]
+        public IActionResult GetNewGeneratedBookID(int detailID)
+        {
+            var GeneratedId = _bookIdentificationRepo.GetGeneratedBookIdByDetailID(detailID);
+            return Ok(GeneratedId);
+        }
+
         [HttpPost("New")]
         public IActionResult CreateBookIdentification([FromBody] BookIdentification newBookIdentification)
         {
