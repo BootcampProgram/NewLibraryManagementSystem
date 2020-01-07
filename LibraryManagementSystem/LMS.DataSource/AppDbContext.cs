@@ -30,7 +30,7 @@ namespace LMS.DataSource
 
         protected override void OnConfiguring(DbContextOptionsBuilder build)
         {
-            string SQLConnectionString = "Server=DESKTOP-EK4IBKP;Database=LMSDatabase;Trusted_Connection=true";
+            string SQLConnectionString = "Server=DESKTOP-1TKFKA1\\SQLEXPRESS;Database=LMSDatabase;Trusted_Connection=true";
 
             build.UseSqlServer(SQLConnectionString);
 
