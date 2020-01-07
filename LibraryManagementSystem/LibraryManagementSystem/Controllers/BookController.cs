@@ -35,15 +35,15 @@ namespace LibraryManagementSystem.Controllers
             return Ok(book);
         }
 
-        [HttpGet("bookId/{BookID}")]
+        [HttpGet("{bookid}")]
 
-        public IActionResult GetBookByBookID(int BookID)
+        public IActionResult GetBookByBookID(int bookid)
         {
-            if (BookID < 0)
+            if (bookid < 0)
             {
                 BadRequest();
             }
-            var book = _bookRepo.GetBookByBookID(BookID);
+            var book = _bookRepo.GetBookByBookID(bookid);
             return Ok(book);
         }
 

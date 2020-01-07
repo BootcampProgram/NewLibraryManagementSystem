@@ -97,7 +97,7 @@ namespace LMS.DataSource.Repositories
             return BookDetails;
         }
 
-        public GetBookDetailsDTO GetBookByBookID(int BookID)
+        public GetBookDetailsDTO GetBookByBookID(int bookid)
         {
             var Book = (from bookDetail in _appDbContext.BookDetail
                         join publisher in _appDbContext.Publisher
@@ -106,7 +106,7 @@ namespace LMS.DataSource.Repositories
                         on bookDetail.GenreID equals genre.GenreID
                         join shelve in _appDbContext.Shelve
                         on bookDetail.ShelveID equals shelve.ShelveID
-                        where bookDetail.DetailID == BookID
+                        where bookDetail.DetailID == bookid
                         select new GetBookDetailsDTO
                         {
                             CoverImage = bookDetail.CoverImage,
@@ -127,7 +127,7 @@ namespace LMS.DataSource.Repositories
                                   on bookDetail.DetailID equals bookAuthor.DetailID
                                   join author in _appDbContext.Author
                                   on bookAuthor.AuthorId equals author.AuthortId
-                                  where bookDetail.DetailID == BookID
+                                  where bookDetail.DetailID == bookid
                                   select author.Name).ToList();
 
                 Book.Author = getAuthors;
@@ -135,7 +135,7 @@ namespace LMS.DataSource.Repositories
                 var bookCopies = (from bookDetail in _appDbContext.BookDetail
                                   join bookId in _appDbContext.BookIdentification
                                   on bookDetail.DetailID equals bookId.DetailID
-                                  where bookDetail.DetailID == BookID
+                                  where bookDetail.DetailID == bookid
                                   select new IndividualBookStatusDTO { BookID = bookId.BookID }).ToList();
 
                 foreach(IndividualBookStatusDTO book in bookCopies)
