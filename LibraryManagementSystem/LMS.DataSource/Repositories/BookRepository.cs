@@ -32,7 +32,12 @@ namespace LMS.DataSource.Repositories
         public void DeleteBook(int id)
         {
             var Book = _appDbContext.BookDetail.Where(c => c.DetailID == id).SingleOrDefault();
+            var Copies = _appDbContext.BookIdentification.Where(c => c.DetailID == id).ToList();
             _appDbContext.BookDetail.Remove(Book);
+            foreach(BookIdentification record in Copies)
+            {
+                 _appDbContext.BookIdentification.Remove(record);
+            }
             _appDbContext.SaveChanges();
         }
 
