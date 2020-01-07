@@ -25,8 +25,7 @@ namespace LMS.DataSource.Repositories
         {
             _appDbContext = dbContext;
         }
-        public int AddedToSubShelve(int reservationID)
-         //validation
+        public int AddedToSubShelve(int reservationID
         {
             var student = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID && c.Shelve == "Main").FirstOrDefault();
 
@@ -40,6 +39,13 @@ namespace LMS.DataSource.Repositories
                 _appDbContext.SaveChanges();
                 return 1;
             }
+        }
+
+        public void DeleteReservations(int reservationID)
+        {
+            var deleteReservation = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID).SingleOrDefault();
+            _appDbContext.Reservation.Remove(deleteReservation);
+            _appDbContext.SaveChanges();
         }
 
         public int CancelReservation(int reservationID)

@@ -61,6 +61,13 @@ namespace LibraryManagementSystem.Controllers
             return Ok(_shelve);
         }
 
+        [HttpDelete("delete/{resID}")]
+        public IActionResult DeleteReservationByID(int resID)
+        {
+            _reservationRepo.DeleteReservations(resID);
+            return Ok();
+        }
+
 
         [HttpPost("New")]
         public IActionResult CreateReservation([FromBody] Reservation newReservation)
