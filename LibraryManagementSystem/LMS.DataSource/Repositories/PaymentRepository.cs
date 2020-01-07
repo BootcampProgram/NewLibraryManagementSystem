@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using LMS.DataSource.DTO;
 
 namespace LMS.DataSource.Repositories
 {
@@ -18,6 +19,10 @@ namespace LMS.DataSource.Repositories
     {
         AppDbContext _appDbContext;
 
+        public PaymentRepository(AppDbContext dbContext)
+        {
+            _appDbContext = dbContext;
+        }
 
         public void CreatePaymentByBorrowingID(Payment paymentObject)
         {
@@ -25,16 +30,18 @@ namespace LMS.DataSource.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public ICollection<Payment> GetAllpaymentByStudentID(int id)
+        public ICollection<GetPaymentsOfStudentDTO> GetAllpaymentByStudentID(int id)
         {
-           
-            var Payments = (from S in _appDbContext.Student
-                            join B in _appDbContext.Borrowing
-                            on S.StudentId equals B.StudentId
-                            join P in _appDbContext.Payment
-                            on B.BorrowingId equals P.BorrowingId
-                            where S.StudentId == id
-                            select P).ToList();
+
+            var Payments = (from borrowing in _appDbContext.Borrowing
+                            join payment in _appDbContext.Payment
+                            on borrowing.BorrowingId equals payment.BorrowingId
+                            where borrowing.StudentId == id
+                            select new GetPaymentsOfStudentDTO { 
+                                BorrowingId = payment.BorrowingId, 
+                                ReturnDate = borrowing.ReturnDate,
+                                DuePayment = payment.DuePayment
+                            }).ToList();
             return Payments;
         }
 

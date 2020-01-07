@@ -17,7 +17,7 @@ namespace LMS.DataSource.Interfaces
     {
         ICollection<GetAllBooksDetailDTO> GetAllBooks();
 
-        BookIdentification GetBookByBookID(int i);
+        GetBookDetailsDTO GetBookByBookID(int bookid);
 
         void CreateBook(BookDetail BookObject);
 

@@ -26,6 +26,8 @@ namespace LMS.DataSource.Interfaces
 
         int BlockStudent(int studentID);
 
+        int UnblockStudent(int studentID);
+
         int ResetPassword(int studentID);
     }
 }

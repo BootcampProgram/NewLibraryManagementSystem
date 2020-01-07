@@ -1,4 +1,5 @@
-﻿using LMS.DataSource.Entities;
+﻿using LMS.DataSource.DTO;
+using LMS.DataSource.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace LMS.DataSource.Interfaces
     //-----------------------------------------------------------------
     public interface IPaymentInterface
     {
-        ICollection<Payment> GetAllpaymentByStudentID(int id);
+        ICollection<GetPaymentsOfStudentDTO> GetAllpaymentByStudentID(int id);
 
         void CreatePaymentByBorrowingID(Payment newPayment);
 

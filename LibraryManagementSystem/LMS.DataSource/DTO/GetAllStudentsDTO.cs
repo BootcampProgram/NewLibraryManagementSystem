@@ -8,5 +8,7 @@ namespace LMS.DataSource.DTO
     {
         public int StudentId { get; set; }
         public string FullName { get; set; }
+
+        public bool Status { get; set; }
     }
 }

@@ -26,9 +26,6 @@ namespace LMS.DataSource.Repositories
             _appDbContext = dbContext;
         }
         public int AddedToSubShelve(int reservationID)
-
-
-            //validation
         {
             var student = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID && c.Shelve == "Main").FirstOrDefault();
 
@@ -42,6 +39,13 @@ namespace LMS.DataSource.Repositories
                 _appDbContext.SaveChanges();
                 return 1;
             }
+        }
+
+        public void DeleteReservations(int reservationID)
+        {
+            var deleteReservation = _appDbContext.Reservation.Where(c => c.ReservationId == reservationID).SingleOrDefault();
+            _appDbContext.Reservation.Remove(deleteReservation);
+            _appDbContext.SaveChanges();
         }
 
         public int CancelReservation(int reservationID)
@@ -79,6 +83,28 @@ namespace LMS.DataSource.Repositories
 
         public ICollection<GetAllReservationsDTO> GetAllReservations()
         {
+            //Delete expired data over 72 hours from database
+            var allReservations = _appDbContext.Reservation.ToList();
+
+            DateTime getCurrentDateTime = DateTime.Now;
+
+            foreach (Reservation record in allReservations)
+            {
+                var hours = (getCurrentDateTime - record.DateReserved).TotalHours;
+
+                if (hours >= 24)
+                {
+                    record.Status = "Expired";
+                    _appDbContext.SaveChanges();
+                }
+                if (hours >= 72)
+                {
+                    _appDbContext.Reservation.Remove(record);
+                    _appDbContext.SaveChanges();
+                }
+            }
+            //------------------------------------------------
+
             var reservation = (from _reservation in _appDbContext.Reservation
                                join _bookID in _appDbContext.BookIdentification
                                on _reservation.BookID equals _bookID.BookID
@@ -93,20 +119,23 @@ namespace LMS.DataSource.Repositories
                                join _shelve in _appDbContext.Shelve
                                on _bookDetail.ShelveID equals _shelve.ShelveID
                                select new GetAllReservationsDTO {
+                                   ReservationID = _reservation.ReservationId,
+                                   DateReserved = _reservation.DateReserved,
+                                   BookID = _bookID.BookID,
                                    DetailID = _bookDetail.DetailID,
                                    Title = _bookDetail.Title, 
                                    ISBN = _bookDetail.ISBN, 
                                    Genre = _genre.Name, 
                                    Language = _bookDetail.Language, 
                                    Status = _reservation.Status, 
-                                   Shelve = _shelve.Code,
+                                   ShelveCode = _shelve.Code,
+                                   Shelve = _reservation.Shelve,
                                    CoverImage = _bookDetail.CoverImage, 
                                    studentFullName = _student.FirstName + " " + _student.LastName, 
                                    Grade = (_student.Grade).ToString() + " " + (_student.Section).ToString(), 
                                    StudentId = _student.StudentId, 
                                    Publisher = _publisher.Name}).ToList();
 
-            
 
             foreach (GetAllReservationsDTO resvDetails in reservation)
             {
@@ -117,18 +146,8 @@ namespace LMS.DataSource.Repositories
                               on _bookDetailAuthor.DetailID equals _bookDetail.DetailID
                               where _bookDetailAuthor.DetailID == resvDetails.DetailID
                               select _author.Name).ToList();
-                foreach(string auth in author)
-                {
-                    if(author.Count() == 1)
-                    {
-                        resvDetails.Author = auth;
-                    }
-                    else
-                    {
-                        resvDetails.Author += auth + "  ";
-                    }
-                    
-                }
+
+                resvDetails.Author = author[0];
             }
             return reservation;
         }
@@ -192,6 +211,11 @@ namespace LMS.DataSource.Repositories
                     {
                         bookDetail.Add(book);
                     } 
+                }
+                else if(hours >= 72)
+                {
+                    _appDbContext.Reservation.Remove(record);
+                    _appDbContext.SaveChanges();
                 }
             }
 

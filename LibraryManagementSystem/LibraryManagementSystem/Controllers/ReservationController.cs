@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Controllers
             return Ok(reservations);
         }
 
-        [HttpGet("{studentID}")]
+        [HttpGet("student/{studentID}")]
         public IActionResult GetReservationByStudentID(int studentID)
         {
             var reservation = _reservationRepo.GetReservationsByStudentID(studentID);
@@ -59,6 +59,13 @@ namespace LibraryManagementSystem.Controllers
         {
             var _shelve = _reservationRepo.GetReservationsByShelve(shelve);
             return Ok(_shelve);
+        }
+
+        [HttpDelete("delete/{resID}")]
+        public IActionResult DeleteReservationByID(int resID)
+        {
+            _reservationRepo.DeleteReservations(resID);
+            return Ok();
         }
 
 
