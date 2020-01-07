@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Controllers
             return Ok(reservations);
         }
 
-        [HttpGet("{studentID}")]
+        [HttpGet("student/{studentID}")]
         public IActionResult GetReservationByStudentID(int studentID)
         {
             var reservation = _reservationRepo.GetReservationsByStudentID(studentID);
