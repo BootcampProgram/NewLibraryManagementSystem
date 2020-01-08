@@ -8,6 +8,8 @@ namespace LMS.DataSource.Interfaces
 {
     public interface IBorrowingInterface
     {
+        ICollection<GetAllBorrowingsDTO> GetAllBorrowings();
+
         ICollection<GetAllBorrowingsByStudentIdDTO> GetAllBorrowingsByStudentID(int studentID);
 
         Borrowing GetBorrowingByID(int borrowingID);

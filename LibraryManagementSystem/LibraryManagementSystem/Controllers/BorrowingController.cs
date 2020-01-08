@@ -20,6 +20,17 @@ namespace LibraryManagementSystem.Controllers
             _borrowingRepo = repo;
         }
 
+        [HttpGet("all")]
+        public IActionResult GetAllBorrowings()
+        {
+            //check records of status = expired or not
+            //if expired change the status to expired
+
+            var borrowings = _borrowingRepo.GetAllBorrowings();
+            return Ok(borrowings);
+        }
+
+
         [HttpGet("student/{studentID}")]
         public IActionResult GetAllBorrowingsByStudentIDCon(int studentID)
         {

@@ -17,6 +17,41 @@ namespace LMS.DataSource.Repositories
             _appDbContext = repo;
         }
 
+        public ICollection<GetAllBorrowingsDTO> GetAllBorrowings()
+        {
+            var borrowings = (from _borrowings in _appDbContext.Borrowing
+                               join _bookID in _appDbContext.BookIdentification
+                               on _borrowings.BookID equals _bookID.BookID
+                               join _bookDetail in _appDbContext.BookDetail
+                               on _bookID.DetailID equals _bookDetail.DetailID
+                               join _student in _appDbContext.Student
+                               on _borrowings.StudentId equals _student.StudentId
+                               join _publisher in _appDbContext.Publisher
+                               on _bookDetail.PublisherID equals _publisher.PublisherID
+                               join _genre in _appDbContext.Genre
+                               on _bookDetail.GenreID equals _genre.GenreID
+                               join _shelve in _appDbContext.Shelve
+                               on _bookDetail.ShelveID equals _shelve.ShelveID
+                               select new GetAllBorrowingsDTO
+                               {
+                                   BookDetailID = _bookDetail.DetailID,
+                                   BorrowDate = _borrowings.BorrowDate,
+                                   BookID = _bookID.BookID,
+                                   DetailID = _bookDetail.DetailID,
+                                   Title = _bookDetail.Title,
+                                   ISBN = _bookDetail.ISBN,
+                                   Genre = _genre.Name,
+                                   Language = _bookDetail.Language,
+                                   Status = _borrowings.Status,
+                                   CoverImage = _bookDetail.CoverImage,
+                                   studentFullName = _student.FirstName + " " + _student.LastName,
+                                   StudentId = _student.StudentId,
+                                   Publisher = _publisher.Name
+                               }).ToList();
+
+            return borrowings;
+        }
+
         public ICollection<GetAllBorrowingsByStudentIdDTO> GetAllBorrowingsByStudentID(int studentID)
         {
 
